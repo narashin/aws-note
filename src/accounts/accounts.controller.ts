@@ -1,10 +1,18 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 @Controller('accounts')
 export class AccountsController {
   constructor() {}
 
-  @Get(':id/accounts/:accountid')
+  @Get(':userid/accounts/:accountid')
   getAccount(@Param() param) {
     console.log(param.id);
   }
@@ -13,9 +21,9 @@ export class AccountsController {
   getAllAccounts() {}
 
   @Post(':userid/accounts/:accountid')
-  addAccount(@Body body: ) {}
+  addAccount(@Body() body) {}
 
-  @Post()
+  @Put()
   editAccount() {}
 
   @Delete(':userid/accounts/:accountid')

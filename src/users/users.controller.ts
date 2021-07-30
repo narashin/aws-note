@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
 import { CurrentUser } from '../../common/decorators/user.decorator';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -12,10 +21,11 @@ export class UsersController {
   }
 
   @Post()
-  signUp(@Body() body: JoinRequestDto) {
-    return this.usersService.signUp(body);
+  async join(@Body() body: JoinRequestDto) {
+    return await this.usersService.join(body);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   logIn(@CurrentUser() user) {
     return user;
