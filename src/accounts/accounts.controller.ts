@@ -1,31 +1,44 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { AccountsService } from './accounts.service';
+import { CreateAccountDTO } from './dto/create-account.dto';
+import { UsersService } from '../users/users.service';
+import { UseGuards, Delete } from '@nestjs/common';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
+// @UseGuards(LocalAuthGuard)
 @Controller('accounts')
 export class AccountsController {
-  constructor() {}
+  constructor(
+    private readonly accountService: AccountsService,
+    private readonly usersService: UsersService,
+  ) {}
 
-  @Get(':userid/accounts/:accountid')
-  getAccount(@Param() param) {
-    console.log(param.id);
+  @Get('/all/')
+  findAll(@Param() param) {
+    return this.accountService.findAll();
   }
 
-  @Get('/all/accounts')
-  getAllAccounts() {}
+  @Get('/:accountId')
+  findOne(@Param('accountid') accountid: number) {
+    return this.accountService.findAccountById(accountid);
+  }
 
-  @Post(':userid/accounts/:accountid')
-  addAccount(@Body() body) {}
+  @Post()
+  async create(@Body() createAccountDto: CreateAccountDTO) {
+    const user = await this.usersService.findById(createAccountDto.userId);
+    await this.accountService.create(user, createAccountDto);
+  }
 
-  @Put()
-  editAccount() {}
+  @Put('/:accountId')
+  update(
+    @Param('accountid') accountid: number,
+    createAccountDTO: CreateAccountDTO,
+  ) {
+    return this.accountService.update({ id: accountid }, createAccountDTO);
+  }
 
-  @Delete(':userid/accounts/:accountid')
-  deleteAccounts() {}
+  @Delete('/:accountId')
+  remove(@Param('accountid') accountid: number) {
+    return this.accountService.remove(accountid);
+  }
 }

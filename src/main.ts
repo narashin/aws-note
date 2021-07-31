@@ -1,8 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import passport from 'passport';
+import * as passport from 'passport';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/http-exeption.filter';
+import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 

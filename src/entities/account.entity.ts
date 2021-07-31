@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -18,6 +26,13 @@ export class Account {
   @Column()
   secretKey: string;
 
-  @ManyToOne(() => User, (user) => user.accounts)
-  user: User;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.accounts, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  public user: User;
 }

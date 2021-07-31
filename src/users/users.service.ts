@@ -12,7 +12,12 @@ export class UsersService {
     @InjectRepository(User) private userRepostitory: Repository<User>,
   ) {}
 
-  getUser() {}
+  async findById(userid: number) {
+    const user = await this.userRepostitory.findOne({
+      where: { userid },
+    });
+    return user;
+  }
 
   async join(body: JoinRequestDto) {
     const { email, name, password } = body;
