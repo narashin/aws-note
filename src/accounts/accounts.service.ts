@@ -26,22 +26,28 @@ export class AccountsService {
     return account;
   }
 
-  async create(user: User, createAccountDTO: CreateAccountDTO) {
+  async create(user: User, createAccountDto: CreateAccountDTO) {
     const account = new Account();
-    account.accountName = createAccountDTO.accountName;
-    account.accountNumber = createAccountDTO.accountNumber;
-    account.accessKey = createAccountDTO.accessKey;
-    account.secretKey = createAccountDTO.secretKey;
+    account.accountName = createAccountDto.accountName;
+    account.accountNumber = createAccountDto.accountNumber;
+    account.accessKey = createAccountDto.accessKey;
+    account.secretKey = createAccountDto.secretKey;
     account.user = user;
     await this.accountRepository.save(account);
   }
 
-  async update(id, createAccountDTO: CreateAccountDTO) {
-    await this.accountRepository.save({ ...createAccountDTO, id });
+  async update(accountid, createAccountDto: CreateAccountDTO) {
+    let account = await this.accountRepository.findOne(accountid);
+    account.accountName = createAccountDto.accountName;
+    account.accountNumber = createAccountDto.accountNumber;
+    account.accessKey = createAccountDto.accessKey;
+    account.secretKey = createAccountDto.secretKey;
+
+    await this.accountRepository.save(account);
   }
 
   async remove(accountid) {
-    await this.accountRepository.findOneOrFail(accountid);
-    return this.accountRepository.delete(accountid);
+    const account = await this.accountRepository.findOne(accountid);
+    await this.accountRepository.delete(account.id);
   }
 }

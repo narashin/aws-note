@@ -14,7 +14,7 @@ export class UsersService {
 
   async findById(userid: number) {
     const user = await this.userRepostitory.findOne({
-      where: { userid },
+      where: { id: userid },
     });
     return user;
   }

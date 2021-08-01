@@ -4,7 +4,7 @@ import * as passport from 'passport';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
-import * as session from 'express-session';
+import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

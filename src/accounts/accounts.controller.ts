@@ -13,8 +13,8 @@ export class AccountsController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Get('/all/')
-  findAll(@Param() param) {
+  @Get('/all')
+  findAll() {
     return this.accountService.findAll();
   }
 
@@ -26,19 +26,20 @@ export class AccountsController {
   @Post()
   async create(@Body() createAccountDto: CreateAccountDTO) {
     const user = await this.usersService.findById(createAccountDto.userId);
+    console.log(user);
     await this.accountService.create(user, createAccountDto);
   }
 
   @Put('/:accountId')
   update(
-    @Param('accountid') accountid: number,
-    createAccountDTO: CreateAccountDTO,
+    @Param('accountId') accountid: number,
+    @Body() createAccountDTO: CreateAccountDTO,
   ) {
-    return this.accountService.update({ id: accountid }, createAccountDTO);
+    return this.accountService.update(accountid, createAccountDTO);
   }
 
   @Delete('/:accountId')
-  remove(@Param('accountid') accountid: number) {
+  remove(@Param('accountId') accountid: number) {
     return this.accountService.remove(accountid);
   }
 }

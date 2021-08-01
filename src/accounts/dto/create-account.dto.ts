@@ -10,6 +10,9 @@ export class CreateAccountDTO {
   accountNumber: number;
 
   @IsNotEmpty()
+  region: string;
+
+  @IsNotEmpty()
   accessKey: string;
 
   @IsNotEmpty()

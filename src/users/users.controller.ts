@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Render,
   Req,
   Res,
   UseGuards,
@@ -29,6 +30,7 @@ export class UsersController {
     return await this.usersService.join(body);
   }
 
+  @Render('login')
   @UseGuards(new LocalAuthGuard())
   @Post('login')
   logIn(@CurrentUser() user) {
